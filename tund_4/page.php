@@ -1,17 +1,40 @@
 <?php
+	//lisan teise php faili
+	require("functions.php");
 	$firstName = "Tundmatu";
 	$lastName = "Kodanik";
+	$fullName = "";
 	//püüan "POST" andmed kinni
-	var_dump($_POST);
+	//var_dump($_POST);
 	if (isset($_POST["firstname"])){
-		$firstName = $_POST["firstname"];
+		$firstName = test_input($_POST["firstname"]);
 	}
 	if (isset($_POST["lastname"])){
-		$lastName = $_POST["lastname"];
+		$lastName = test_input($_POST["lastname"]);
 	}
     $month = intval(date('m'));
-
-
+	$months = [
+		'et' => [
+			1 => 'Jaanuar',
+			2 => 'Veebruar',
+			3 => 'Märts',
+			4 => 'Aprill',
+			5 => 'Mai',
+			6 => 'Juuni',
+			7 => 'Juuli',
+			8 => 'August',
+			9 => 'September',
+			10 => 'Oktoober',
+			11 => 'November',
+			12 => 'Detsember',
+		]
+	];
+	
+	function stupidfunction() {
+		$GLOBALS["fullName"] = $GLOBALS["firstName"] ." " .$GLOBALS["lastName"];
+	}
+	
+	
 ?>
 
 <!DOCTYPE html>
@@ -21,7 +44,16 @@
 	<meta name="description" content="Siin lehel leidub igast asju">
 	<meta name="author" content="Kristjan Põldmets">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<!-- <link rel="stylesheet" type="text/css" href="../../cascadingstylesheets.css"> -->
+	<!-- <link rel="stylesheet" type="text/css" href="../../cascadingstylesheets.css"> 
+	
+			<label>Sünnikuu: </label>
+			echo '<select name="birthMonth">' ."\n;
+			if ($i == $birthMonth) {
+				echo " selected";
+			}
+			echo ">" .$monthNamesET[$i - 1] ."</option> \n*;
+		)
+	-->
 	<title>
 	<?php
 		echo $firstName;
@@ -40,7 +72,7 @@
 	<p>See tekst siin on lisatud koduarvutis</p>
 	<hr>
 	
-	<form method="POST">
+	<form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
 		<label>Eesnimi: </label>
 		<input type="text" name="firstname">
 		<label>Perenimi: </label>
@@ -48,24 +80,16 @@
 		<label>Sünniaasta: </label>
 		<input type="number" min="1915" max="2000" value="1993" name="birthyear">
         <select name="birthMonth">
-            <option <?= $month == 1 ? 'selected':'' ?> value="1">jaanuar</option>
-            <option <?= $month == 2 ? 'selected':'' ?> value="2">veebruar</option>
-            <option <?= $month == 3 ? 'selected':'' ?> value="3">mĆ¤rts</option>
-            <option <?= $month == 4 ? 'selected':'' ?> value="4">aprill</option>
-            <option <?= $month == 5 ? 'selected':'' ?> value="5">mai</option>
-            <option <?= $month == 6 ? 'selected':'' ?> value="6">juuni</option>
-            <option <?= $month == 7 ? 'selected':'' ?> value="7">juuli</option>
-            <option <?= $month == 8 ? 'selected':'' ?> value="8">august</option>
-            <option <?= $month == 9 ? 'selected':'' ?> value="9">september</option>
-            <option <?= $month == 10 ? 'selected':'' ?> value="10">oktoober</option>
-            <option <?= $month == 11 ? 'selected':'' ?> value="11">november</option>
-            <option <?= $month == 12 ? 'selected':'' ?> value="12">detsember</option>
-        </select><br><?php echo$month?>
+			<?php foreach($months['et'] as $key => $m): ?>
+				<option <?= $month == $key ? 'selected':'' ?> value="<?= $key ?>"><?= $m ?></option>
+			<?php endforeach; ?>
+		</select>
 		<input type="submit" name="submitUserData" value="Saada andmed">
 	</form>
 	<hr>
 	<?php
 		if (isset($_POST["birthyear"])){
+			echo "<p>" .$fullName ."</p>";
 			echo "<p>Olete elanud järgnevatel aastatel:</p> \n";
 			echo "<ul> \n";
 				for ($i = $_POST["birthyear"]; $i <= date("Y"); $i++){
