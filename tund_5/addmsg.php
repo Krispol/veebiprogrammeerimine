@@ -5,7 +5,7 @@
 	
 	if(isset($_POST["submitMessage"])){
 		if ($_POST["message"] != "Kirjuta oma sõnum siia..." and !empty($_POST["message"])){
-			$message = test_input ($_POST["message"]);
+			$message = test_input($_POST["message"]);
 			$notice = saveamsg($message);
 		} else {
 			$notice = "Palun kirjuta sõnum!";
