@@ -37,6 +37,7 @@
 		<input type="submit" name="submitMessage" value="Salvesta sõnum">
 	</form>
 	<hr>
+	<li><a href="main.php">Tagasi pealehele!</a></li>
 	<p><?= $notice; ?></p>
 
 </body>

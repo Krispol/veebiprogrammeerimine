@@ -27,16 +27,14 @@
   //püüan POST andmed kinni
   if(isset($_POST["submitUserData"])){//kas on üldse nuppu vajutatud
   
-  if (isset($_POST["firstName"]) and !empty($_POST["firstName"])){
-	$firstName = test_input($_POST["firstName"]);
+  if (isset($_POST["firstname"]) and !empty($_POST["firstname"])){
+	$firstName = test_input($_POST["firstname"]);
   } else {
 	$firstNameError = "Palun sisesta oma eesnimi!";  
   }
   
-  if (isset($_POST["lastName"])){
-	$lastName = test_input($_POST["lastName"]);
-  } else {
-	$lastNameError = "Palun sisesta oma perenimi!";  
+  if (isset($_POST["lastname"])){
+	$lastName = test_input($_POST["lastname"]);
   }
   
   //soo kontroll
@@ -63,7 +61,8 @@
 	}
   }//kuupäeva legaalsuse kontroll lõppeb
   
-  
+  //parooli pikkuse kontroll
+  //strlen($_POST["password"]) >= 8
   
   //kõik kontrollid tehtud
   if(empty($firstNameError) and empty($lastNameError) and empty($birthMonthError) and empty($birthYearError) and empty($birthDayError) and empty($birthDateError) and empty($genderError) and empty($emailError) and empty($passwordError)){
@@ -78,16 +77,15 @@
   <title>Uue kasutaja loomine</title>
 </head>
 <body>
-  <h1>Loo kasutaja
-  </h1>
-  <p>See leht on valmistatud <a href="https://www.tlu.ee/">TLÜ</a> <a href="https://www.tlu.ee/dt">Digitehnoloogiate instituudi</a> õppetöö raames ja ei oma mingisugust, mõtestatud või muul moel väärtuslikku sisu</p>
+  <h1>Loo kasutaja</h1>
+  <p>Siin on minu <a href="http://www.tlu.ee">TLÜ</a> õppetöö raames valminud veebilehed. Need ei oma mingit sügavat sisu ja nende kopeerimine ei oma mõtet.</p>
   <hr>
   
-    <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+  <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
     <label>Eesnimi: </label><br>
     <input type="text" name="firstname" value="<?php echo $firstName; ?>"><span><?php echo $firstNameError; ?></span><br>
     <label>Perekonnanimi: </label><br>
-    <input type="text" name="lastname" value="<?php echo $lastName; ?>"><span><?php echo $lastNameError; ?></span><br>
+    <input type="text" name="lastname"><br>
 	<label>Sünnipäev: </label>
 	  <?php
 	    echo '<select name="birthDay">' ."\n";
@@ -146,6 +144,7 @@
   </form>
   <hr>
   <p><?php echo $notice; ?></p>
+  <p><a href="main.php">Tagasi pealehele!</a></p>
   
 </body>
 </html>
