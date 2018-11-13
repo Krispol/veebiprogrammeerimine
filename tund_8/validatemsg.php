@@ -12,7 +12,7 @@
 	  exit();
   }
   
-  $msglist = readallvalidatedmessagesbyuser();
+  $msglist = readallunvalidatedmessages();
   
   
 ?>
@@ -23,7 +23,7 @@
   <title>Anonüümsed sõnumid</title>
 </head>
 <body>
-  <h1>Valideeritud anonüümsed sõnumid</h1>
+  <h1>Sõnumid</h1>
   <p>Siin on minu <a href="http://www.tlu.ee">TLÜ</a> õppetöö raames valminud veebilehed. Need ei oma mingit sügavat sisu ja nende kopeerimine ei oma mõtet.</p>
   <hr>
   <ul>
@@ -31,7 +31,7 @@
 	<li><a href="main.php">Tagasi pealehele!</a></li>
   </ul>
   <hr>
-  <h2>Valideeritud sõnumid valideerijate kaupa</h2>
+  <p>Valideerimata sõnumid:</p>
   <?php echo $msglist; ?>
 
 </body>

@@ -1,2 +1,5 @@
-ananüümsete sõnumite tabel
+anonüümsete sõnumite tabel
 CREATE TABLE `if18_kristjan_po_1`.`vpamsg` ( `id` INT(11) NOT NULL AUTO_INCREMENT , `message` VARCHAR(256) NOT NULL , `created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , `accepted` INT(1) NULL , `acceptedby` INT(11) NULL , `accepttime` TIMESTAMP NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
+
+vpphotos tabel
+CREATE TABLE `if18_kristjan_po_1`.`vpphotos` ( `id` INT(11) NOT NULL AUTO_INCREMENT , `userid` INT(11) NOT NULL , `filename` VARCHAR(40) NOT NULL , `alttekst` VARCHAR(256) NULL , `privacy` INT(1) NOT NULL , `created` DATE NOT NULL DEFAULT CURRENT_TIMESTAMP , `deleted` DATE NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;

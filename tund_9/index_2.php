@@ -23,17 +23,10 @@
   }
   
   }
+  
+  $pageTitle = "Avaleht";
+  require("header.php");
 ?>
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-	<title>Katseline veeb</title>
-  </head>
-  <body>
-    <h1>Teretulemast</h1>
-	<p>See leht on valminud <a href="http://www.tlu.ee" target="_blank">TLÜ</a> õppetöö raames ja ei oma mingisugust, mõtestatud või muul moel väärtuslikku sisu.</p>
-	<hr>
 	<form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
 	  <label>E-mail (kasutajatunnus):</label><br>
 	  <input type="email" name="email" value="<?php echo $email; ?>">&nbsp;<span><?php echo $emailError; ?></span><br>
@@ -45,7 +38,7 @@
 	</form>
 	<hr>
 	<p><a href="newuser.php">Loo kasutaja</a>!</p>
-	<p><a href="addmsg.php">Lisa sõnum</a>!</p>
+	<p><a href="addmsg.php">Lisa anonüümne sõnum</a>!</p>
 	<hr>
 	<p>Sõnumeid anonüümsetelt postitajatelt:</p>
 	<div>

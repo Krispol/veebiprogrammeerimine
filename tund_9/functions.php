@@ -2,11 +2,26 @@
 	require("../../../config.php");
 	$database = "if18_kristjan_po_1";
 	//echo $serverHost;
-	//kasutan sessiooni
 	
+	//kasutan sessiooni
 	session_start();
-	//SQL käskandmete uuendamiseks
-	//UPDATE vpamsg SET acceptedby=?, accepttime=now() WHERE userid=?
+	
+	function addPhotoData($filename, $alttext, $privacy){
+	$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]);
+    $stmt = $mysqli->prepare("INSERT INTO vpphotos (userid, filename, alttext, privacy) VALUES(?, ?, ?, ?)");
+	echo $mysqli->error;
+	if(empty($privacy) or $privacy > 3 or $privacy < 1){
+		$privacy = 3;
+	}
+	$stmt->bind_param("issi", $_SESSION["userId"], $filename, $alttext, $privacy);
+	if($stmt->execute()){
+		echo "Andmebaasiga on kõik korras!";
+	} else {
+		echo "Andmebaasiga läks midagi viltu!" .$stmt->error;
+	}
+	$stmt->close();
+	$mysqli->close();
+  }
 	
   function readprofilecolors(){
 	$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]);
@@ -31,7 +46,7 @@
   function storeuserprofile($desc, $bgcol, $txtcol){
 	$notice = "";
 	$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]);
-    $stmt = $mysqli->prepare("SELECT description, bgcolor, txtcolor FROM vpuserprofiles WHERE userid=?");
+    $stmt = $mysqli->prepare("SELECT description, bgcolor, txtcolor FROM userprofiles WHERE userid=?");
 	echo $mysqli->error;
 	$stmt->bind_param("i", $_SESSION["userId"]);
 	$stmt->bind_result($description, $bgcolor, $txtcolor);
@@ -108,32 +123,26 @@
 		//et saadud tulemus püsiks ja oleks kasutatav ka järgmises päringus $stmt2
 		$stmt->store_result();
 		
-		while($stmt->fetch()){
-			$counter = 0;
-			$stmt2->execute();
-			while($stmt2->fetch()){
-				$counter ++;
-				$msgtxt = "<p><b>";
-				if($acceptedFromDb == 1) {
-					$msgtxt .= "Lubatud: ";
-				}
-				else {
-					$msgtxt .= "Keelatud: ";
-				}
-				
-				$msgtxt .= "</b>" .$msgFromDb ."</p> \n";
-			} //while $stmt2 fetch
-			$userlabels = "<h3>" . $firstnameFromDb ." " .$lastnameFromDb ."</h3> \n";
-			if ($counter > 0) {
-				$msghtml .= $userlabels. $msgtxt;
-			}
-		} //while $stmt fetch
-		$stmt2->close();
-		$stmt->close();
-		$mysqli->close();
-		return $msghtml;
-	}
+	while($stmt->fetch()){
+	  $msghtml .= "<h3>" . $firstnameFromDb ." " .$lastnameFromDb ."</h3> \n";
+	  $stmt2->execute();
+	  while($stmt2->fetch()){
+		$msghtml .= "<p><b>";
+		if($acceptedFromDb == 1){
+		  $msghtml .= "Lubatud: ";
+		} else {
+		  $msghtml .= "Keelatud: ";
+		}
+		$msghtml .= "</b>" .$msgFromDb ."</p> \n";
+	  }//while $stmt2 fetch
+	}//while $stmt fetch
+	$stmt2->close();
+	$stmt->close();
+	$mysqli->close();
+	return $msghtml;
+  }
 	
+	//kasutajate nimekiri
 	function listusers(){
 	$notice = "";
 	$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]);
